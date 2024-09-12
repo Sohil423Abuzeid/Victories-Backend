@@ -31,7 +31,7 @@ This backend API provides functionality for managing messages, tickets, customer
 
 ### Owner Page
 - **Get Tickets by Admin ID**
-  - `GET /api/tickets/admin/{adminId}`
+  - `GET /api/tickets/{adminId}`
   - Retrieves tickets for a specific admin, including:
     - `Urgency`, `Status`, `Admin`, `Date`, `Sentiment Analysis`, `Sentiment Degree`, `Title`, and `Category`.
 
