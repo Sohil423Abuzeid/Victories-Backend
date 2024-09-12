@@ -2,11 +2,12 @@
 
 ## Overview
 
-This backend API provides functionality for managing messages, tickets, customer data, and admin operations for businesses using multiple communication channels (WhatsApp, Instagram, etc.). It includes features for ticket prioritization, sentiment analysis, AI-driven ticket updates, real-time notifications, and more. 
+This backend API provides functionality for managing messages, tickets, customer data, and admin operations for businesses using multiple communication channels (WhatsApp, Instagram, etc.). It includes features for ticket prioritization, sentiment analysis, AI-driven ticket updates, real-time notifications, and more.
 
-### Key Features:
+### Key Features
 - **Login & Registration**
 - **Ticket Management** with AI-powered updates
+- **Get Similar Tickets Based on Summary & Category** with AI
 - **Customer & Admin Profiles**
 - **Real-Time Messaging**
 - **Sentiment Analysis**
@@ -25,7 +26,7 @@ This backend API provides functionality for managing messages, tickets, customer
 
 ### Home Page
 - **Get Admins**
-  - `GET /api/admins`
+  - `GET /api/admin/admins`
   - Returns a list of admins with details: `Name`, `#Tickets`, and `Id`.
 
 ### Owner Page
@@ -45,7 +46,7 @@ This backend API provides functionality for managing messages, tickets, customer
   - Sends a message related to a specific ticket. The message includes:
     - `Id`, `Content`, `SenderId`.
 
-- **Receive Message**
+- **Receive Messages**
   - `GET /api/ticket/{ticketId}/messages`
   - Retrieves new messages and updates the front-end. Includes a mechanism for notifying the front-end to refresh the screen.
 
@@ -54,9 +55,14 @@ This backend API provides functionality for managing messages, tickets, customer
   - Updates ticket details using AI for:
     - `Category`, `Status`, `Summary`.
 
-- **Get Messages by Ticket ID**
+- **Get Message History by Ticket ID**
   - `GET /api/ticket/{ticketId}/history`
   - Retrieves the message history for a specific ticket.
+
+### Search Tickets Popup
+- **Get Similar Tickets**
+  - `GET /api/ticket/{ticketId}/similar`
+  - Retrieves the 5 most similar tickets to help admins.
 
 ### Customer Page
 - **Get Customer**
@@ -70,7 +76,7 @@ This backend API provides functionality for managing messages, tickets, customer
 ### Owner Profile
 - **Get Owner**
   - `GET /api/owner`
-  - Returns owner details: `Photo`, `First Name`, `Last Name`, `Email`, `Password`.
+  - Returns owner details: `Photo`, `First Name`, `Last Name`, `Email`.
 
 - **Update Owner Image**
   - `PUT /api/owner/image`
@@ -90,7 +96,6 @@ This backend API provides functionality for managing messages, tickets, customer
 
 ### Admin Management
 - **Delete Admin by ID**
-  - (Not Yet Implemented)
   - `DELETE /api/admin/{adminId}`
   - Deletes an admin by their `Id`.
 
@@ -117,8 +122,8 @@ This backend API provides functionality for managing messages, tickets, customer
 
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/your-repo/messaging-api-backend.git
-   cd Vectories-Backend
+   git clone https://github.com/SmartSparks-Victoris/Victories-Backend.git
+   cd Victories-Backend
    ```
 
 2. **Install Dependencies:**
@@ -130,7 +135,7 @@ This backend API provides functionality for managing messages, tickets, customer
 3. **Database Setup:**
    Use EF Core migrations to set up the database:
    ```bash
-   update-database
+   dotnet ef database update
    ```
 
 4. **Run the Application:**
