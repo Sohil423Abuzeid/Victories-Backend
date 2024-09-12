@@ -1,0 +1,97 @@
+F:/SmartSparks/InstaHub/bin/Debug/net8.0/appsettings.Development.json
+F:/SmartSparks/InstaHub/bin/Debug/net8.0/appsettings.json
+F:/SmartSparks/InstaHub/bin/Debug/net8.0/InstaHub.exe
+F:/SmartSparks/InstaHub/bin/Debug/net8.0/InstaHub.deps.json
+F:/SmartSparks/InstaHub/bin/Debug/net8.0/InstaHub.runtimeconfig.json
+F:/SmartSparks/InstaHub/bin/Debug/net8.0/InstaHub.dll
+F:/SmartSparks/InstaHub/bin/Debug/net8.0/InstaHub.pdb
+F:/SmartSparks/InstaHub/bin/Debug/net8.0/Microsoft.OpenApi.dll
+F:/SmartSparks/InstaHub/bin/Debug/net8.0/Swashbuckle.AspNetCore.Swagger.dll
+F:/SmartSparks/InstaHub/bin/Debug/net8.0/Swashbuckle.AspNetCore.SwaggerGen.dll
+F:/SmartSparks/InstaHub/bin/Debug/net8.0/Swashbuckle.AspNetCore.SwaggerUI.dll
+F:/SmartSparks/InstaHub/obj/Debug/net8.0/InstaHub.csproj.AssemblyReference.cache
+F:/SmartSparks/InstaHub/obj/Debug/net8.0/InstaHub.GeneratedMSBuildEditorConfig.editorconfig
+F:/SmartSparks/InstaHub/obj/Debug/net8.0/InstaHub.AssemblyInfoInputs.cache
+F:/SmartSparks/InstaHub/obj/Debug/net8.0/InstaHub.AssemblyInfo.cs
+F:/SmartSparks/InstaHub/obj/Debug/net8.0/InstaHub.csproj.CoreCompileInputs.cache
+F:/SmartSparks/InstaHub/obj/Debug/net8.0/InstaHub.MvcApplicationPartsAssemblyInfo.cs
+F:/SmartSparks/InstaHub/obj/Debug/net8.0/InstaHub.MvcApplicationPartsAssemblyInfo.cache
+F:/SmartSparks/InstaHub/obj/Debug/net8.0/staticwebassets.build.json
+F:/SmartSparks/InstaHub/obj/Debug/net8.0/staticwebassets.development.json
+F:/SmartSparks/InstaHub/obj/Debug/net8.0/staticwebassets/msbuild.InstaHub.Microsoft.AspNetCore.StaticWebAssets.props
+F:/SmartSparks/InstaHub/obj/Debug/net8.0/staticwebassets/msbuild.build.InstaHub.props
+F:/SmartSparks/InstaHub/obj/Debug/net8.0/staticwebassets/msbuild.buildMultiTargeting.InstaHub.props
+F:/SmartSparks/InstaHub/obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.InstaHub.props
+F:/SmartSparks/InstaHub/obj/Debug/net8.0/staticwebassets.pack.json
+F:/SmartSparks/InstaHub/obj/Debug/net8.0/scopedcss/bundle/InstaHub.styles.css
+F:/SmartSparks/InstaHub/obj/Debug/net8.0/InstaHub.csproj.Up2Date
+F:/SmartSparks/InstaHub/obj/Debug/net8.0/InstaHub.dll
+F:/SmartSparks/InstaHub/obj/Debug/net8.0/refint/InstaHub.dll
+F:/SmartSparks/InstaHub/obj/Debug/net8.0/InstaHub.pdb
+F:/SmartSparks/InstaHub/obj/Debug/net8.0/InstaHub.genruntimeconfig.cache
+F:/SmartSparks/InstaHub/obj/Debug/net8.0/ref/InstaHub.dll
+/media/shahd/New Volume/SmartSparks/InstaHub/bin/Debug/net8.0/appsettings.Development.json
+/media/shahd/New Volume/SmartSparks/InstaHub/bin/Debug/net8.0/appsettings.json
+/media/shahd/New Volume/SmartSparks/InstaHub/bin/Debug/net8.0/InstaHub
+/media/shahd/New Volume/SmartSparks/InstaHub/bin/Debug/net8.0/InstaHub.deps.json
+/media/shahd/New Volume/SmartSparks/InstaHub/bin/Debug/net8.0/InstaHub.runtimeconfig.json
+/media/shahd/New Volume/SmartSparks/InstaHub/bin/Debug/net8.0/InstaHub.dll
+/media/shahd/New Volume/SmartSparks/InstaHub/bin/Debug/net8.0/InstaHub.pdb
+/media/shahd/New Volume/SmartSparks/InstaHub/obj/Debug/net8.0/InstaHub.GeneratedMSBuildEditorConfig.editorconfig
+/media/shahd/New Volume/SmartSparks/InstaHub/obj/Debug/net8.0/InstaHub.AssemblyInfoInputs.cache
+/media/shahd/New Volume/SmartSparks/InstaHub/obj/Debug/net8.0/InstaHub.AssemblyInfo.cs
+/media/shahd/New Volume/SmartSparks/InstaHub/obj/Debug/net8.0/InstaHub.csproj.CoreCompileInputs.cache
+/media/shahd/New Volume/SmartSparks/InstaHub/obj/Debug/net8.0/InstaHub.MvcApplicationPartsAssemblyInfo.cache
+/media/shahd/New Volume/SmartSparks/InstaHub/obj/Debug/net8.0/staticwebassets.build.json
+/media/shahd/New Volume/SmartSparks/InstaHub/obj/Debug/net8.0/staticwebassets.development.json
+/media/shahd/New Volume/SmartSparks/InstaHub/obj/Debug/net8.0/staticwebassets/msbuild.InstaHub.Microsoft.AspNetCore.StaticWebAssets.props
+/media/shahd/New Volume/SmartSparks/InstaHub/obj/Debug/net8.0/staticwebassets/msbuild.build.InstaHub.props
+/media/shahd/New Volume/SmartSparks/InstaHub/obj/Debug/net8.0/staticwebassets/msbuild.buildMultiTargeting.InstaHub.props
+/media/shahd/New Volume/SmartSparks/InstaHub/obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.InstaHub.props
+/media/shahd/New Volume/SmartSparks/InstaHub/obj/Debug/net8.0/staticwebassets.pack.json
+/media/shahd/New Volume/SmartSparks/InstaHub/obj/Debug/net8.0/scopedcss/bundle/InstaHub.styles.css
+/media/shahd/New Volume/SmartSparks/InstaHub/obj/Debug/net8.0/InstaHub.dll
+/media/shahd/New Volume/SmartSparks/InstaHub/obj/Debug/net8.0/refint/InstaHub.dll
+/media/shahd/New Volume/SmartSparks/InstaHub/obj/Debug/net8.0/InstaHub.pdb
+/media/shahd/New Volume/SmartSparks/InstaHub/obj/Debug/net8.0/InstaHub.genruntimeconfig.cache
+/media/shahd/New Volume/SmartSparks/InstaHub/obj/Debug/net8.0/ref/InstaHub.dll
+/media/shahd/New Volume/SmartSparks/InstaHub/bin/Debug/net8.0/Microsoft.OpenApi.dll
+/media/shahd/New Volume/SmartSparks/InstaHub/bin/Debug/net8.0/Swashbuckle.AspNetCore.Swagger.dll
+/media/shahd/New Volume/SmartSparks/InstaHub/bin/Debug/net8.0/Swashbuckle.AspNetCore.SwaggerGen.dll
+/media/shahd/New Volume/SmartSparks/InstaHub/bin/Debug/net8.0/Swashbuckle.AspNetCore.SwaggerUI.dll
+/media/shahd/New Volume/SmartSparks/InstaHub/obj/Debug/net8.0/InstaHub.csproj.AssemblyReference.cache
+/media/shahd/New Volume/SmartSparks/InstaHub/obj/Debug/net8.0/InstaHub.MvcApplicationPartsAssemblyInfo.cs
+/media/shahd/New Volume/SmartSparks/InstaHub/obj/Debug/net8.0/InstaHub.csproj.Up2Date
+F:\SmartSparks\InstaHub\obj\Debug\net8.0\InstaHub.csproj.AssemblyReference.cache
+F:\SmartSparks\InstaHub\obj\Debug\net8.0\InstaHub.GeneratedMSBuildEditorConfig.editorconfig
+F:\SmartSparks\InstaHub\obj\Debug\net8.0\InstaHub.AssemblyInfoInputs.cache
+F:\SmartSparks\InstaHub\obj\Debug\net8.0\InstaHub.AssemblyInfo.cs
+F:\SmartSparks\InstaHub\obj\Debug\net8.0\InstaHub.csproj.CoreCompileInputs.cache
+F:\SmartSparks\InstaHub\obj\Debug\net8.0\InstaHub.MvcApplicationPartsAssemblyInfo.cs
+F:\SmartSparks\InstaHub\obj\Debug\net8.0\InstaHub.MvcApplicationPartsAssemblyInfo.cache
+F:\SmartSparks\InstaHub\obj\Debug\net8.0\InstaHub.dll
+F:\SmartSparks\InstaHub\obj\Debug\net8.0\refint\InstaHub.dll
+F:\SmartSparks\InstaHub\obj\Debug\net8.0\InstaHub.pdb
+F:\SmartSparks\InstaHub\bin\Debug\net8.0\appsettings.Development.json
+F:\SmartSparks\InstaHub\bin\Debug\net8.0\appsettings.json
+F:\SmartSparks\InstaHub\bin\Debug\net8.0\InstaHub.exe
+F:\SmartSparks\InstaHub\bin\Debug\net8.0\InstaHub.deps.json
+F:\SmartSparks\InstaHub\bin\Debug\net8.0\InstaHub.runtimeconfig.json
+F:\SmartSparks\InstaHub\bin\Debug\net8.0\InstaHub.dll
+F:\SmartSparks\InstaHub\bin\Debug\net8.0\InstaHub.pdb
+F:\SmartSparks\InstaHub\bin\Debug\net8.0\Microsoft.OpenApi.dll
+F:\SmartSparks\InstaHub\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
+F:\SmartSparks\InstaHub\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+F:\SmartSparks\InstaHub\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+F:\SmartSparks\InstaHub\obj\Debug\net8.0\staticwebassets.build.json
+F:\SmartSparks\InstaHub\obj\Debug\net8.0\staticwebassets.development.json
+F:\SmartSparks\InstaHub\obj\Debug\net8.0\staticwebassets\msbuild.InstaHub.Microsoft.AspNetCore.StaticWebAssets.props
+F:\SmartSparks\InstaHub\obj\Debug\net8.0\staticwebassets\msbuild.build.InstaHub.props
+F:\SmartSparks\InstaHub\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.InstaHub.props
+F:\SmartSparks\InstaHub\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.InstaHub.props
+F:\SmartSparks\InstaHub\obj\Debug\net8.0\staticwebassets.pack.json
+F:\SmartSparks\InstaHub\obj\Debug\net8.0\scopedcss\bundle\InstaHub.styles.css
+F:\SmartSparks\InstaHub\obj\Debug\net8.0\InstaHub.csproj.Up2Date
+F:\SmartSparks\InstaHub\obj\Debug\net8.0\InstaHub.genruntimeconfig.cache
+F:\SmartSparks\InstaHub\obj\Debug\net8.0\ref\InstaHub.dll
+F:\SmartSparks\InstaHub\obj\Debug\net8.0\InstaHub.sourcelink.json
