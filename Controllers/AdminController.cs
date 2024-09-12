@@ -33,7 +33,7 @@ namespace InstaHub.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpGet("admins")]
         public async Task<IActionResult> GetAdmins()
         {
             try

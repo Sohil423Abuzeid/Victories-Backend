@@ -19,7 +19,9 @@ namespace InstaHub.Models
 
 
         public string Label {get; set;}
-        public string State {get; set;}
+
+        public int StateId {get; set;}
+        public string State { get; set;}
 
         public string Summary { get; set; }
 
