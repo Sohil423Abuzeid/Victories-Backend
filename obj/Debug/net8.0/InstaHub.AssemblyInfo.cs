@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("InstaHub")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2bc0208c8a4a896b2647f365bf13e811736b0ac9")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d85798b7dac3ff8056cf87d2b48dac2b17187881")]
 [assembly: System.Reflection.AssemblyProductAttribute("InstaHub")]
 [assembly: System.Reflection.AssemblyTitleAttribute("InstaHub")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
