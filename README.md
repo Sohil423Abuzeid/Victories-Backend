@@ -1,8 +1,4 @@
-InstaHub backend .NET API project:
-
----
-
-# Multi-Channel Messaging API Backend
+# InstaHub Multi-Channel Messaging API Backend
 
 ## Overview
 
