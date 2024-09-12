@@ -1,0 +1,44 @@
+﻿/*
+ * login endpoint => admin 
+ * register endpoint => company 
+ * 
+ * Home Page 
+ *  1. GetAdmins endpoint => admin (Name, #tickits, Id)
+ *
+ *  Owner Page 
+ *  2. GetTicketsByAdminId {urgent, status, admin, date, sentiment analysis, degree of sentiment , title, category}
+ *
+ *  Ticket Chat Page 
+ *  3. GetTicketDetailsById => ticket (Id, Label, Summary,Category, Status, Customer "contact way", Message date)
+ *  
+ *  4. SendMessage => message (Id, Content, senderId)
+ *  
+ *  5. ReceiveMessage => message 
+ *      should be a way to notify front to refresh screen
+ *  
+ *  6. UpdateTicket (Catgeory, Status, Summary) => using Ai
+ *  
+ *  7. GetMessagesByTicketId (History)
+ *  
+ *  Customer
+ *  8. GetCustomer => customer (Id, Contact way, registeration date, first ticket date)
+ *  => GetTicketsByCustomerId => tickets 
+ *  
+ *  Pricing 
+ *  (Not Yet)
+ *  
+ *  Profile only for owner 
+ *  9. GetOwner => admin (phote, first name, last name, email, password)
+ * 10. Update Image
+       DeleteImage 
+ * 11. Update Owner (FirstName, LastName, Email)
+ *     Update Owner (Password)
+ * 
+ * 12. DelelteAdminById     
+ *         (Not Yet)
+ * 13. AddAnotherAdmin => admin (FirstName, LastNmame, PhoneNumber, Email, Password, UserName)
+
+ * "Admin Profile"
+ * 14. GetAdminById => (name, registerationDate, id, #tickets, tickets)  
+ * 
+ */
