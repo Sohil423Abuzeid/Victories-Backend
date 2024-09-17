@@ -5,7 +5,7 @@ namespace InstaHub.Models
         public int Id { get; set; }
         public int TicketId {get; set;}
 
-        public string Contnet {get; set;}
+        public string Content {get; set;}
 
         public DateTime Date {get; set;}
     }

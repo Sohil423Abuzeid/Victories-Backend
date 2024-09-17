@@ -11,6 +11,10 @@ namespace InstaHub.Controllers
     [ApiController]
     public class TicketController(ITicketSercive _ticketService, IMessageService _messageService, ILogger<TicketController> _logger) : ControllerBase
     {
+
+
+
+
         public async Task<IActionResult> GetTickets(int ticketId)
         {
             var tickets = await _ticketService.GetTicketByIdAsync(ticketId);
