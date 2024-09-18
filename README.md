@@ -111,7 +111,9 @@ This backend API provides functionality for managing messages, tickets, customer
 ### Pricing
 - (Not Yet Implemented)
   - Future features will include pricing functionality.
-
+### Statistics 
+- (Not Yet Implemented)
+   - Future Feature
 ## Technologies Used
 - **.NET 8**
 - **Entity Framework Core** (for database operations)
