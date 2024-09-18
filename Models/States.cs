@@ -1,9 +1,9 @@
 ﻿namespace InstaHub.Models
 {
-    public enum Sates
+    public enum States
     {
         open = 1,
-        closed = 2,
-        inprogress = 3
+        inProgress = 2,
+        closed = 3
     }
 }

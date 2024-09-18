@@ -1,5 +1,6 @@
 using InstaHub.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 
 var builder = WebApplication.CreateBuilder(args);
 

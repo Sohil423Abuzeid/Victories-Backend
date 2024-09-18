@@ -8,8 +8,8 @@ namespace InstaHub.Models
         public List<Message> Messages {get; set;}
 
         public Category Category {get; set;}
+
         public List<int> AdminId {get; set;}
-        public bool Flag {get; set;}
 
         public float SentimentAnalysis {get; set;}
         public int Rate {get; set;}

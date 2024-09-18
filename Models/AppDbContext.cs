@@ -19,7 +19,7 @@ namespace InstaHub.Models
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
-        public DbSet<Message> Messages { get; set; }
+        public DbSet<WhatsAppMessage> WhatsAppMessages { get; set; 
         public DbSet<Customer> Customers { get; set; }
     }
 }

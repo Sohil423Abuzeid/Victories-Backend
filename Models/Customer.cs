@@ -10,3 +10,4 @@ namespace InstaHub.Models
         public List<Ticket> Tickets {get; set;}
     }
 }
+

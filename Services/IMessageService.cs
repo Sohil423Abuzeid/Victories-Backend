@@ -1,5 +1,6 @@
 ﻿using InstaHub.Dto;
 using InstaHub.Models;
+using InstaHub.Dto;
 
 namespace InstaHub.Services
 {
@@ -7,6 +8,6 @@ namespace InstaHub.Services
     {
         Task<IEnumerable<Message>> GetMessageHistoryByTicketIdAsync(int ticketId);
         Task<IEnumerable<Message>> GetMessagesByTicketIdAsync(int ticketId);
-        Task SendMessageAsync(int ticketId, MessageDto message);
+      //  Task SendMessageAsync(int ticketId, MessageDto message);
     }
 }
