@@ -52,9 +52,10 @@ namespace InstaHub.Services.ChannelsServices.WhatsService
 
             WhatsAppMessage result = new WhatsAppMessage
             {
-                MessageId = messageElement.GetProperty("id").GetString(),       
-                CustomerId = contactElement.GetProperty("wa_id").GetString(),         
-                SendDate = DateTime.UtcNow,                                   
+                MessageId = messageElement.GetProperty("id").GetString(),
+                CustomerId = contactElement.GetProperty("wa_id").GetString(),
+                SendDate = DateTime.UtcNow,
+                sent = true
             };
 
 

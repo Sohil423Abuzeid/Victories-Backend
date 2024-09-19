@@ -1,6 +1,7 @@
 using InstaHub.Models;
 using InstaHub.Repositories;
 using InstaHub.Services;
+using InstaHub.Services.ChannelsServices.WhatsAppServiceInfra;
 using InstaHub.Services.ChannelsServices.WhatsService;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
@@ -17,6 +18,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddWebSocketManager();
 
+
+builder.Services.Configure<WhatsAppSettings>(builder.Configuration.GetSection("WhatsAppSettings"));
 builder.Services.AddHttpClient<IWhatsAppService, WhatsAppService>();
 builder.Services.AddHttpClient<ITicketService, TicketService>();
 builder.Services
