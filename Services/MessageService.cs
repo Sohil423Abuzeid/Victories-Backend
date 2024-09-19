@@ -21,16 +21,35 @@ namespace InstaHub.Services
 
         public async Task SendMessageAsync(int ticketId, string messaging_product, SendMessageDto message)
         {
-            // needs refactoring based on the message type: future work
-            WhatsAppMessage retunedMessage = new();
-            if (messaging_product == "whatsapp")
-                 retunedMessage = await _whatsAppService.SendMessage(message);
+            WhatsAppMessage retunedMessage = null;
 
-           await _messageRepository.AddMessageAsync(ticketId, retunedMessage);
-        }
+            try
+            {
+                if (messaging_product == "whatsapp")
+                    retunedMessage = await _whatsAppService.SendMessage(message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error sending message", ex);
+            }
 
-      
-        public async Task AddMessageToTicketAsync(int ticketId, WhatsAppMessage message)
+
+            // Save the message if it was successfully sent
+            if (retunedMessage != null)
+            {
+                try
+                {
+                    await _messageRepository.AddMessageAsync(ticketId, retunedMessage);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Message sent successfully, but storing message failed", ex);
+                }
+            }
+    }
+
+
+    public async Task AddMessageToTicketAsync(int ticketId, WhatsAppMessage message)
         {
             // Save the message and link it to the ticket
             await _messageRepository.AddMessageAsync(ticketId, message);
@@ -40,6 +59,5 @@ namespace InstaHub.Services
         {
             await _messageRepository.AddMessageAsync(ticketId, message);
         }
-
     }
 }

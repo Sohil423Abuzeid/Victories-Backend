@@ -28,7 +28,7 @@ namespace InstaHub.Controllers
         }
 
        
-        [HttpPost("{ticketId}/{messaging_product}/message")]
+        [HttpPost("{ticketId}/{messaging_product}/sendMessage")]
         public async Task<IActionResult> SendMessage(int ticketId, string messaging_product, [FromBody] SendMessageDto message)
         {
             if (ticketId <= 0)
@@ -46,10 +46,20 @@ namespace InstaHub.Controllers
                 await _messageService.SendMessageAsync(ticketId, messaging_product, message);
                 return Ok(new { success = true, message = "Message sent successfully." });
             }
+            catch (Exception ex) when (ex.Message.Contains("sending message"))
+            {
+                _logger.LogError(ex, ex.Message);
+                return StatusCode(500, new { success = false, message = "Message sending failed." });
+            }
+            catch (Exception ex) when (ex.Message.Contains("storing message"))
+            {
+                _logger.LogError(ex, ex.Message);
+                return Ok(new { success = true, message = "Message sent successfully but couldn't be stored in db." });
+            }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error sending message.");
-                return StatusCode(500, "An error occurred while sending the message.");
+                _logger.LogError(ex, ex.Message);
+                return StatusCode(500, new { success = false, message = "An unexpected error occurred." });
             }
         }
 
