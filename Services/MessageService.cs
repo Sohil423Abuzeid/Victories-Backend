@@ -40,5 +40,6 @@ namespace InstaHub.Services
         {
             await _messageRepository.AddMessageAsync(ticketId, message);
         }
+
     }
 }

@@ -29,4 +29,9 @@ namespace InstaHub.Models
         [JsonProperty("value.messages[0].text.body")]
         public string MessageBody { get; set; }                 // Content of the text message
     }
+
+    public class SentMessage : Message
+    {
+        public string WaId { get; set; }
+    }
 }

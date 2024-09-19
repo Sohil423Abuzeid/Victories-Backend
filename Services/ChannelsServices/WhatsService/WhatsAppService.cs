@@ -3,6 +3,7 @@ using InstaHub.Models;
 using InstaHub.Services.ChannelsServices.WhatsAppServiceInfra;
 using Microsoft.Extensions.Options;
 using System.Net.Http.Headers;
+using System.Text.Json;
 namespace InstaHub.Services.ChannelsServices.WhatsService
 {
     public class WhatsAppService : IWhatsAppService
@@ -14,7 +15,7 @@ namespace InstaHub.Services.ChannelsServices.WhatsService
             _settings = settings.Value;
         }
 
-        public async Task<bool> SendMessage(SendMessageDto message)
+        public async Task<WhatsAppMessage> SendMessage(SendMessageDto message)
         {
             using HttpClient httpClient = new();
 
@@ -37,12 +38,29 @@ namespace InstaHub.Services.ChannelsServices.WhatsService
             HttpResponseMessage response =
                 await httpClient.PostAsJsonAsync(new Uri(_settings.ApiUrl), body);
 
-            return response.IsSuccessStatusCode;
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception("Error sending message");
+            }
+
+            // Directly parse JSON from response content
+            using JsonDocument jsonObject = await response.Content.ReadFromJsonAsync<JsonDocument>();
+
+            // Extract the necessary fields from the response
+            var messageElement = jsonObject.RootElement.GetProperty("messages")[0];
+            var contactElement = jsonObject.RootElement.GetProperty("contacts")[0];
+
+            WhatsAppMessage result = new WhatsAppMessage
+            {
+                MessageId = messageElement.GetProperty("id").GetString(),       
+                CustomerId = contactElement.GetProperty("wa_id").GetString(),         
+                SendDate = DateTime.UtcNow,                                   
+            };
+
+
+            return result;
         }
 
-        public Task<WhatsAppMessage> ReceiveMessage()
-        {
-            throw new NotImplementedException();
-        }
+
     }
 }
