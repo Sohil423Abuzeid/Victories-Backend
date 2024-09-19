@@ -10,6 +10,8 @@ namespace InstaHub.Models
         public DateTime ReceiveDate { get; set; }
         public string TimeStamp { get; set; }
         public string MessagingProduct { get; set; }            // Messaging product (e.g., WhatsApp)
+
+        public bool sent { get; set; } = false;
     }
 
     public class WhatsAppMessage : Message
@@ -28,10 +30,5 @@ namespace InstaHub.Models
 
         [JsonProperty("value.messages[0].text.body")]
         public string MessageBody { get; set; }                 // Content of the text message
-    }
-
-    public class SentMessage : Message
-    {
-        public string WaId { get; set; }
     }
 }
