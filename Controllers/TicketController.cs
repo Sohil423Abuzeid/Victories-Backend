@@ -31,10 +31,10 @@ namespace InstaHub.Controllers
         [HttpPost("{ticketId}/{messaging_product}/sendMessage")]
         public async Task<IActionResult> SendMessage(int ticketId, string messaging_product, [FromBody] SendMessageDto message)
         {
-            if (ticketId <= 0)
-            {
-                return BadRequest("Invalid ticket ID.");
-            }
+            //if (ticketId <= 0)
+            //{
+            //    return BadRequest("Invalid ticket ID.");
+            //}
 
             if (message == null)
             {
@@ -138,6 +138,30 @@ namespace InstaHub.Controllers
                 return StatusCode(500, "An error occurred while updating the ticket.");
             }
         }
+        
+        [HttpPut("{ticketId}/{adminId}/closeTicket")]
+        public async Task<IActionResult> CloseTicket(int ticketId, int adminId)
+        {
+            if (ticketId <= 0)
+            {
+                return BadRequest("Invalid ticket ID.");
+            }
+            try
+            {
+                var closedTicket = await _ticketService.CloseTicketAsync(ticketId);
+                if (closedTicket == false)
+                {
+                    return NotFound("Ticket not found.");
+                }
+
+                return Ok(closedTicket);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, "Error closing ticket.");
+                return StatusCode(500, "An error occurred while closing the ticket.");
+            }
+        }
 
         [HttpPut("{ticketId}/update")]
         public async Task<IActionResult> UpdateTicketById(int ticketId, [FromBody] TicketDto ticketDto)
@@ -238,7 +262,6 @@ namespace InstaHub.Controllers
                 return StatusCode(500, "An error occurred while retrieving the tickets.");
             }
         }
-
 
         [HttpGet("{ticketId}")]
         public async Task<IActionResult> GetTicketsByTicketId(int ticketId)

@@ -4,7 +4,7 @@
     {
         public string type { get; set; }
 
-        // adminId, customer name , message body , company name 
+        // message body
         public List<object> parameters { get; set; }
     }
 }

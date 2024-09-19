@@ -55,9 +55,8 @@ namespace InstaHub.Services.ChannelsServices.WhatsService
                 MessageId = messageElement.GetProperty("id").GetString(),
                 CustomerId = contactElement.GetProperty("wa_id").GetString(),
                 SendDate = DateTime.UtcNow,
-                sent = true
+                sent = true,
             };
-
 
             return result;
         }

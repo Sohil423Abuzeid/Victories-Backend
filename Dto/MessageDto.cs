@@ -9,10 +9,4 @@ namespace InstaHub.Dto
         public string Template { get; set; }
         public List<WhatsAppComponent>? Components { get; set; }
     }
-
-    public class ReceiveMessageDto
-    {
-        public string? MessageBody { get;  set; }
-        public int CustomerId { get; internal set; }
-    }
 }
