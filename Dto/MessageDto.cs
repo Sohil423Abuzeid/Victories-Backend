@@ -1,14 +1,18 @@
-﻿namespace InstaHub.Dto
+﻿using InstaHub.Services.ChannelsServices.WhatsAppServiceInfra;
+
+namespace InstaHub.Dto
 {
-    public class MessageDto // for sending 
+    public class SendMessageDto // for sending 
     {
-        // admin Id 
-
-        // customer name 
-
-        // message body 
-
-        // company name 
+        public string Mobile { get; set; }
+        public string Language { get; set; }
+        public string Template { get; set; }
+        public List<WhatsAppComponent>? Components { get; set; }
     }
 
+    public class ReceiveMessageDto
+    {
+        public string? MessageBody { get;  set; }
+        public int CustomerId { get; internal set; }
+    }
 }
