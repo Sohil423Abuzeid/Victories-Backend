@@ -10,7 +10,7 @@ namespace InstaHub.Repositories
         Task<Ticket> GetTicketByIdAsync(int ticketId);
         Task<Ticket> UpdateTicketAsync(int ticketId, TicketDto ticketDto);
         Task<Ticket> UpdateTicketAsync(int ticketId, Ticket ticke);
-        Task<bool> CloseTicket(int ticketId);
+        Task<bool> CloseTicketAsync(int ticketId);
         Task<IEnumerable<Ticket>> GetTicketsByCustomerIdAsync(string customerId);
     }
 }

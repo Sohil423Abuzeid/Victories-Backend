@@ -30,7 +30,7 @@ namespace InstaHub.Services
             var ticket = await _ticketRepository.GetTicketByIdAsync(ticketId);
             if (ticket != null)
             {
-                return await _ticketRepository.CloseTicket(ticketId);
+                return await _ticketRepository.CloseTicketAsync(ticketId);
             }
             return false;
         }
