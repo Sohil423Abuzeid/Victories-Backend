@@ -20,7 +20,7 @@ namespace InstaHub.Services.Authentication
     }
 
     public class AuthService(AppDbContext _context, IOptions<JwtSettings> _settings): IAuthService
-    {   
+    {
         public string HashPassword(string password)
         {
             using var hmac = new HMACSHA256();
@@ -29,7 +29,8 @@ namespace InstaHub.Services.Authentication
             byte[] hash = hmac.ComputeHash(saltedPassword);
             return $"{Convert.ToBase64String(salt)}.{Convert.ToBase64String(hash)}";
         }
-        private bool verifyPassword(Admin user, string password)
+
+        private bool VerifyPassword(Admin user, string password)
         {
             var storedPasswordParts = user.HashPassword.Split('.');
             if (storedPasswordParts.Length != 2)
@@ -37,9 +38,17 @@ namespace InstaHub.Services.Authentication
                 return false;
             }
 
-            var computedHash = HashPassword(password);
-            return computedHash == user.HashPassword;    
+            var salt = Convert.FromBase64String(storedPasswordParts[0]);
+            var storedHash = storedPasswordParts[1];
+
+            using var hmac = new HMACSHA256(salt);  // Use the stored salt as the key
+            var saltedPassword = Encoding.UTF8.GetBytes(password).Concat(salt).ToArray();
+            byte[] computedHash = hmac.ComputeHash(saltedPassword);
+
+            var computedHashBase64 = Convert.ToBase64String(computedHash);
+            return computedHashBase64 == storedHash;
         }
+
         public async Task<string> Login(LoginDto loginDto)
         {
             var user = await _context.Admins.SingleOrDefaultAsync(u => u.UserName == loginDto.Username);

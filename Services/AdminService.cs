@@ -15,6 +15,7 @@ namespace InstaHub.Services
                 FirstName = adminDto.FirstName,
                 LastName = adminDto.LastName,
                 UserName = adminDto.UserName,
+                PhoneNumber = adminDto.PhoneNumber,
                 Email = adminDto.Email,
                 HashPassword = hashedPassword
             };

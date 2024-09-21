@@ -59,7 +59,7 @@ namespace InstaHub.Services
            
             ticket.State = States.open.ToString();
             ticket.StateId = (int)States.open;
-            ticket.AdminId.Add(adminId);
+            ticket.AdminsId.Add(adminId);
 
             var updatedTicket = await _ticketRepository.UpdateTicketAsync(ticketId, ticket);
             return updatedTicket;
