@@ -1,4 +1,4 @@
-namespace InstaHub.Models 
+namespace InstaHub.Models
 {
     public class Ticket
     {
@@ -7,19 +7,18 @@ namespace InstaHub.Models
 
         public List<Message> Messages { get; set; } = new();
 
-        public Category Category {get; set;}
+        public Category Category { get; set; }
+        public List<int> AdminsId { get; set; } = new List<int>();
 
-        public List<int> AdminId { get; set; } = new List<int>();
+        public float SentimentAnalysis { get; set; }
+        public int Rate { get; set; }
 
-        public float SentimentAnalysis {get; set;}
-        public int Rate {get; set;}
-        
-        public DateTime CreatedAt {get; set;}
-        public DateTime ClosedAt {get; set;}
+        public DateTime CreatedAt { get; set; }
+        public DateTime ClosedAt { get; set; }
 
-        public string Label {get; set;}
+        public string Label { get; set; }
 
-        public int StateId { get; set; } = (int) States.notStarted;
+        public int StateId { get; set; } = (int)States.notStarted;
         public string State { get; set; } = States.notStarted.ToString();
 
         public string Summary { get; set; }
@@ -27,4 +26,3 @@ namespace InstaHub.Models
         public bool Urgent { get; set; }
     }
 }
-  

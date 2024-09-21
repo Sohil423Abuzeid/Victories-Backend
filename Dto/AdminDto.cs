@@ -13,5 +13,8 @@ namespace InstaHub.Dto
         public string Email { get; set; }
 
         public string Password { get; set; }
+
+        [Phone]
+        public string PhoneNumber { get; set; }
     }
 }

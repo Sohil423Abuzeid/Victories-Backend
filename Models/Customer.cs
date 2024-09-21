@@ -1,8 +1,11 @@
+using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+
 namespace InstaHub.Models
 {
     public class Customer
     {
-        public int Id { get; set; }
+        [Key]
         public string CustomerId {get; set;}
         public string ContactWay {get; set;}
 

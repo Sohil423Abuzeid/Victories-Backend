@@ -5,11 +5,11 @@ namespace InstaHub.Models
 {
     public class Admin
     {
-        public int Id {get; set;}
+        public int Id { get; set; }
 
         public string UserName { get; set; }
 
-        public string FirstName {get; set;}
+        public string FirstName { get; set; }
         public string LastName { get; set; }
 
         [Phone]
@@ -18,8 +18,7 @@ namespace InstaHub.Models
         [EmailAddress]
         public string Email { get; set; }
 
-        public string HashPassword {get; set;}
-
+        public string HashPassword { get; set; }
 
         public DateTime RegisterationDate { get; set; }
     }

@@ -31,10 +31,10 @@ namespace InstaHub.Controllers
         [HttpPost("{ticketId}/{messaging_product}/sendMessage")]
         public async Task<IActionResult> SendMessage(int ticketId, string messaging_product, [FromBody] SendMessageDto message)
         {
-            //if (ticketId <= 0)
-            //{
-            //    return BadRequest("Invalid ticket ID.");
-            //}
+            if (ticketId <= 0)
+            {
+                return BadRequest("Invalid ticket ID.");
+            }
 
             if (message == null)
             {

@@ -14,16 +14,16 @@ namespace InstaHub.Controllers
     [ApiController]
     public class AdminController(IAdminService _adminService, IAuthService _authService, IOptions<JwtSettings> _jwt,ILogger<AdminController> _logger) : ControllerBase
     {
-        [HttpPost("Login")]
+        [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
         {
             if (loginDto == null || !ModelState.IsValid)
                 return BadRequest("Invalid login request.");
+
             try
             {
                 var token = await _authService.Login(loginDto);
                 Response.Cookies.Append("access_token", token);
-               // Response.Cookies.Append("role", "admin");
                 return Ok(new { Token = token });
             }
             catch (UnauthorizedAccessException)
@@ -38,7 +38,6 @@ namespace InstaHub.Controllers
             }
         }
 
-
         [HttpGet("admins")]
         public async Task<IActionResult> GetAdmins()
         {
@@ -46,7 +45,7 @@ namespace InstaHub.Controllers
             {
                 var admins = await _adminService.GetAllAdminsAsync();
                 if (admins == null || !admins.Any())
-                    return Ok(new List<AdminDto>()); 
+                    return Ok(new List<AdminDto>());
 
                 return Ok(admins);
             }
@@ -58,7 +57,7 @@ namespace InstaHub.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostAdmin([FromBody] AdminDto adminDto)
+        public async Task<IActionResult> CreateAdmin([FromBody] AdminDto adminDto)
         {
             if (adminDto == null || !ModelState.IsValid)
                 return BadRequest("Invalid admin data.");
@@ -113,7 +112,7 @@ namespace InstaHub.Controllers
         }
 
         [HttpPut("{adminId}/password")]
-        public async Task<IActionResult> UpdatePassword(int adminId,[FromBody] UpdatePasswordDto updatePasswordDto)
+        public async Task<IActionResult> UpdatePassword(int adminId, [FromBody] UpdatePasswordDto updatePasswordDto)
         {
             if (updatePasswordDto == null)
             {
@@ -127,27 +126,27 @@ namespace InstaHub.Controllers
 
             try
             {
-                var result = await _adminService.UpdatePasswordAsync(adminId,updatePasswordDto);
+                var result = await _adminService.UpdatePasswordAsync(adminId, updatePasswordDto);
 
                 if (!result)
                 {
                     return BadRequest("Password update failed. Please check your old password and try again.");
                 }
 
-                return Ok(new { success = true, message = "Owner password updated successfully." });
+                return Ok(new { success = true, message = "Admin password updated successfully." });
             }
             catch (Exception ex)
             {
-                // Log the exception
-                _logger.LogError(ex, "Error updating owner password.");
-
-                return StatusCode(500, "An error occurred while updating the owner password.");
+                _logger.LogError(ex, "Error updating admin password.");
+                return StatusCode(500, "An error occurred while updating the admin password.");
             }
         }
-        
-        public async Task<IActionResult> ForgetPassword(int adminId)
+
+        // Placeholder for the forget password functionality
+        [HttpPost("{adminId}/forget-password")]
+        public IActionResult ForgetPassword(int adminId)
         {
-            throw new NotImplementedException();
+            return StatusCode(501, "This functionality is not yet implemented.");
         }
     }
 }

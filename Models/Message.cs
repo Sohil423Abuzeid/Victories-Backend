@@ -16,19 +16,19 @@ namespace InstaHub.Models
 
     public class WhatsAppMessage : Message
     {
-        [JsonProperty("value.metadata.display_phone_number")]
+     //   [JsonProperty("value.metadata.display_phone_number")]
         public string DisplayPhoneNumber { get; set; }          // Business display phone number
 
-        [JsonProperty("value.contacts[0].profile.name")]
+       // [JsonProperty("value.contacts[0].profile.name")]
         public string ContactName { get; set; }                 // Contact name (sender)
 
-        [JsonProperty("value.contacts[0].wa_id")]
+      //  [JsonProperty("value.contacts[0].wa_id")]
         public string CustomerId { get; set; }                  // WhatsApp ID of the sender // customer
 
-        [JsonProperty("value.messages[0].type")]
+     //   [JsonProperty("value.messages[0].type")]
         public string MessageType { get; set; }                 // Type of the message (e.g., text)
 
-        [JsonProperty("value.messages[0].text.body")]
+      //  [JsonProperty("value.messages[0].text.body")]
         public string MessageBody { get; set; }                 // Content of the text message
     }
 }
