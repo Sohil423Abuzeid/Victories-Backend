@@ -11,6 +11,16 @@ using WebSocketManager;
 var builder = WebApplication.CreateBuilder(args);
 
 // 1. Configure Services (Dependency Injection)
+
+// Configure DbContext with connection string
+
+// Access the password from user secrets
+// Build the full connection string
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(connectionString));
+
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -37,18 +47,25 @@ builder.Services
     .AddScoped<IOwnerService, OwnerService>()
     .AddScoped<IAuthService, AuthService>();
 
-// Configure DbContext with connection string
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(connectionString));
-
 var app = builder.Build();
 
 // 2. Middleware Configuration
 
 // Enable Swagger (API documentation)
-app.UseSwagger();
-app.UseSwaggerUI();
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+else
+{
+    app.UseSwagger();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "MyAPI");
+        options.RoutePrefix = string.Empty;
+    });
+}
 
 // Enable WebSocket support
 app.UseWebSockets();
