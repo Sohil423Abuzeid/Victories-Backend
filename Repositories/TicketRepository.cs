@@ -1,43 +1,83 @@
 ﻿using InstaHub.Controllers;
 using InstaHub.Models;
-
+using Microsoft.EntityFrameworkCore;
 namespace InstaHub.Repositories
 {
     public class TicketRepository : ITicketRepository
     {
-        public Task<bool> CloseTicket(int ticketId)
+        private readonly AppDbContext _context;
+
+        public TicketRepository(AppDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
+        }
+        public async Task<bool> CloseTicket(int ticketId)
+        {
+            var ticket =await GetTicketByIdAsync(ticketId);
+
+            
+            if (ticket == null)
+            {
+                 return await Task.FromResult(false);
+            }
+
+            ticket.State = States.closed.ToString();
+            ticket.ClosedAt = DateTime.UtcNow;
+
+            _context.SaveChangesAsync();
+            return await  Task.FromResult(false);
         }
 
         public Task<Ticket> CreateTicketAsync(Ticket ticket)
         {
-            throw new NotImplementedException();
+            ticket.CreatedAt = DateTime.UtcNow;
+            _context.Tickets.AddAsync(ticket);
+            _context.SaveChangesAsync();
+            return Task.FromResult(ticket);
         }
 
         public Task<Ticket> GetOpenTicketByCustomerIdAsync(string customerId)
         {
-            throw new NotImplementedException();
+            var ticketTask = _context.Tickets
+            .FirstOrDefaultAsync(t => t.CustomerId == customerId && t.State==States.open.ToString());
+            return ticketTask;
         }
 
         public Task<Ticket> GetTicketByIdAsync(int ticketId)
         {
-            throw new NotImplementedException();
+            var ticket = _context.Tickets
+            .FirstOrDefaultAsync(t => t.Id == ticketId);
+            return ticket;
         }
 
-        public Task<IEnumerable<Ticket>> GetTicketsByCustomerIdAsync(string customerId)
+        public async Task<IEnumerable<Ticket>> GetTicketsByCustomerIdAsync(string customerId)
         {
-            throw new NotImplementedException();
+            return await _context.Tickets
+            .Where(t => t.CustomerId == customerId)
+            .OrderByDescending(t => t.CreatedAt)
+            .ToListAsync();
         }
 
-        public Task<Ticket> UpdateTicketAsync(int ticketId, TicketDto ticketDto)
+        public async Task<Ticket> UpdateTicketAsync(int ticketId, TicketDto ticketDto)
         {
-            throw new NotImplementedException();
+            Ticket ticket =await GetTicketByIdAsync(ticketId);
+            if (ticket == null)
+            {
+                return null; 
+            }
+            ticket.State = ticketDto.Status;
+            await _context.SaveChangesAsync();
+            return await Task.FromResult<Ticket>(ticket);
+
         }
 
-        public Task<Ticket> UpdateTicketAsync(int ticketId, Ticket ticke)
+        public async Task<Ticket> UpdateTicketAsync(int ticketId, Ticket ticket)
         {
-            throw new NotImplementedException();
+           Ticket ticket1 = await GetTicketByIdAsync(ticketId);
+           ticket1 = ticket;
+           await _context.SaveChangesAsync();
+           return await Task.FromResult<Ticket>(ticket1);
+
         }
     }
 }
