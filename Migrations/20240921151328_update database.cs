@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace InstaHub.Migrations
 {
     /// <inheritdoc />
-    public partial class DatabaseEntities : Migration
+    public partial class updatedatabase : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -47,15 +47,14 @@ namespace InstaHub.Migrations
                 name: "Customers",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CustomerId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ContactWay = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RegistrationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     FirstTicketDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Customers", x => x.Id);
+                    table.PrimaryKey("PK_Customers", x => x.CustomerId);
                 });
 
             migrationBuilder.CreateTable(
@@ -64,13 +63,12 @@ namespace InstaHub.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CustomerId = table.Column<int>(type: "int", nullable: false),
+                    CustomerId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
-                    AdminId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Flag = table.Column<bool>(type: "bit", nullable: false),
+                    AdminsId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SentimentAnalysis = table.Column<float>(type: "real", nullable: false),
                     Rate = table.Column<int>(type: "int", nullable: false),
-                    CreateAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ClosedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Label = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     StateId = table.Column<int>(type: "int", nullable: false),
@@ -91,25 +89,33 @@ namespace InstaHub.Migrations
                         name: "FK_Tickets_Customers_CustomerId",
                         column: x => x.CustomerId,
                         principalTable: "Customers",
-                        principalColumn: "Id",
+                        principalColumn: "CustomerId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Messages",
+                name: "Message",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    MessageId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     TicketId = table.Column<int>(type: "int", nullable: false),
-                    Contnet = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    SendDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ReceiveDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TimeStamp = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MessagingProduct = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    sent = table.Column<bool>(type: "bit", nullable: false),
+                    Discriminator = table.Column<string>(type: "nvarchar(21)", maxLength: 21, nullable: false),
+                    DisplayPhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ContactName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CustomerId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MessageType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MessageBody = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Messages", x => x.Id);
+                    table.PrimaryKey("PK_Message", x => x.MessageId);
                     table.ForeignKey(
-                        name: "FK_Messages_Tickets_TicketId",
+                        name: "FK_Message_Tickets_TicketId",
                         column: x => x.TicketId,
                         principalTable: "Tickets",
                         principalColumn: "Id",
@@ -117,8 +123,8 @@ namespace InstaHub.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Messages_TicketId",
-                table: "Messages",
+                name: "IX_Message_TicketId",
+                table: "Message",
                 column: "TicketId");
 
             migrationBuilder.CreateIndex(
@@ -139,7 +145,7 @@ namespace InstaHub.Migrations
                 name: "Admins");
 
             migrationBuilder.DropTable(
-                name: "Messages");
+                name: "Message");
 
             migrationBuilder.DropTable(
                 name: "Tickets");

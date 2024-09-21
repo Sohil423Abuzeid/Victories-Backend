@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InstaHub.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240912134321_Database Entities")]
-    partial class DatabaseEntities
+    [Migration("20240921151328_update database")]
+    partial class updatedatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -84,11 +84,8 @@ namespace InstaHub.Migrations
 
             modelBuilder.Entity("InstaHub.Models.Customer", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("CustomerId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ContactWay")
                         .IsRequired()
@@ -100,34 +97,50 @@ namespace InstaHub.Migrations
                     b.Property<DateTime>("RegistrationDate")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("Id");
+                    b.HasKey("CustomerId");
 
                     b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("InstaHub.Models.Message", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("MessageId")
+                        .HasColumnType("nvarchar(450)");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasMaxLength(21)
+                        .HasColumnType("nvarchar(21)");
 
-                    b.Property<string>("Contnet")
+                    b.Property<string>("MessagingProduct")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("Date")
+                    b.Property<DateTime>("ReceiveDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("SendDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("TicketId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<string>("TimeStamp")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("sent")
+                        .HasColumnType("bit");
+
+                    b.HasKey("MessageId");
 
                     b.HasIndex("TicketId");
 
-                    b.ToTable("Messages");
+                    b.ToTable("Message");
+
+                    b.HasDiscriminator().HasValue("Message");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("InstaHub.Models.Ticket", b =>
@@ -138,7 +151,7 @@ namespace InstaHub.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("AdminId")
+                    b.Property<string>("AdminsId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -148,14 +161,12 @@ namespace InstaHub.Migrations
                     b.Property<DateTime>("ClosedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("CreateAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("Flag")
-                        .HasColumnType("bit");
+                    b.Property<string>("CustomerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Label")
                         .IsRequired()
@@ -188,6 +199,33 @@ namespace InstaHub.Migrations
                     b.HasIndex("CustomerId");
 
                     b.ToTable("Tickets");
+                });
+
+            modelBuilder.Entity("InstaHub.Models.WhatsAppMessage", b =>
+                {
+                    b.HasBaseType("InstaHub.Models.Message");
+
+                    b.Property<string>("ContactName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CustomerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DisplayPhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MessageBody")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MessageType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasDiscriminator().HasValue("WhatsAppMessage");
                 });
 
             modelBuilder.Entity("InstaHub.Models.Message", b =>
