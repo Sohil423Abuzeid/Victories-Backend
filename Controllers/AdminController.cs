@@ -1,24 +1,29 @@
-﻿using InstaHub.Dto;
+﻿using Azure;
+using InstaHub.Dto;
 using InstaHub.Services;
+using InstaHub.Services.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using System.Runtime;
 using System.Threading.Tasks;
 
 namespace InstaHub.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AdminController(IAdminService _adminService, IAuthService _authService, ILogger<AdminController> _logger) : ControllerBase
+    public class AdminController(IAdminService _adminService, IAuthService _authService, IOptions<JwtSettings> _jwt,ILogger<AdminController> _logger) : ControllerBase
     {
         [HttpPost("Login")]
         public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
         {
             if (loginDto == null || !ModelState.IsValid)
                 return BadRequest("Invalid login request.");
-
             try
             {
                 var token = await _authService.Login(loginDto);
+                Response.Cookies.Append("access_token", token);
+               // Response.Cookies.Append("role", "admin");
                 return Ok(new { Token = token });
             }
             catch (UnauthorizedAccessException)
@@ -32,6 +37,7 @@ namespace InstaHub.Controllers
                 return StatusCode(500, "An error occurred while processing your request.");
             }
         }
+
 
         [HttpGet("admins")]
         public async Task<IActionResult> GetAdmins()
@@ -104,6 +110,44 @@ namespace InstaHub.Controllers
                 _logger.LogError(ex, "Error occurred while deleting admin by ID.");
                 return StatusCode(500, "An error occurred while processing your request.");
             }
+        }
+
+        [HttpPut("{adminId}/password")]
+        public async Task<IActionResult> UpdatePassword(int adminId,[FromBody] UpdatePasswordDto updatePasswordDto)
+        {
+            if (updatePasswordDto == null)
+            {
+                return BadRequest("Password update details cannot be null.");
+            }
+
+            if (string.IsNullOrEmpty(updatePasswordDto.NewPassword) || string.IsNullOrEmpty(updatePasswordDto.OldPassword))
+            {
+                return BadRequest("Old and new passwords must be provided.");
+            }
+
+            try
+            {
+                var result = await _adminService.UpdatePasswordAsync(adminId,updatePasswordDto);
+
+                if (!result)
+                {
+                    return BadRequest("Password update failed. Please check your old password and try again.");
+                }
+
+                return Ok(new { success = true, message = "Owner password updated successfully." });
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                _logger.LogError(ex, "Error updating owner password.");
+
+                return StatusCode(500, "An error occurred while updating the owner password.");
+            }
+        }
+        
+        public async Task<IActionResult> ForgetPassword(int adminId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

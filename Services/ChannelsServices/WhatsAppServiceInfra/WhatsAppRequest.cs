@@ -1,6 +1,6 @@
 ﻿namespace InstaHub.Services.ChannelsServices.WhatsAppServiceInfra
 {
-    public class WhatsAppRequest: MessageRequest
+    public class WhatsAppRequest
     {
         public string messaging_product { get; set; } = "whatsapp";
         public string recipient_type { get; set; } = "individual";

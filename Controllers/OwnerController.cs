@@ -44,7 +44,7 @@ namespace InstaHub.Controllers
                 // Assuming you have a service to handle updating owner details
                 var result = await _ownerService.UpdateOwnerInformationAsync(updateOwnerDto);
 
-                if (!result)
+                if (result is null)
                 {
                     return NotFound("Owner not found.");
                 }
@@ -60,39 +60,7 @@ namespace InstaHub.Controllers
             }
         }
 
-        [HttpPut("password")]
-        public async Task<IActionResult> UpdateOwnerPassword([FromBody] UpdateOwnerPasswordDto updateOwnerPasswordDto)
-        {
-            if (updateOwnerPasswordDto == null)
-            {
-                return BadRequest("Password update details cannot be null.");
-            }
-
-            if (string.IsNullOrEmpty(updateOwnerPasswordDto.NewPassword) || string.IsNullOrEmpty(updateOwnerPasswordDto.OldPassword))
-            {
-                return BadRequest("Old and new passwords must be provided.");
-            }
-
-            try
-            {
-                // Assuming you have a service to handle password updates
-                var result = await _ownerService.UpdateOwnerPasswordAsync(updateOwnerPasswordDto);
-
-                if (!result)
-                {
-                    return BadRequest("Password update failed. Please check your old password and try again.");
-                }
-
-                return Ok(new { success = true, message = "Owner password updated successfully." });
-            }
-            catch (Exception ex)
-            {
-                // Log the exception
-                _logger.LogError(ex, "Error updating owner password.");
-
-                return StatusCode(500, "An error occurred while updating the owner password.");
-            }
-        }
+       
 
     }
 }

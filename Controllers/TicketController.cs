@@ -62,7 +62,7 @@ namespace InstaHub.Controllers
                 return StatusCode(500, new { success = false, message = "An unexpected error occurred." });
             }
         }
-
+   
         // This API will be hit by Meta, not by us
         [HttpPost("receive-whatsapp-messages")]
         public async Task<IActionResult> ReceiveWhatsAppMessages([FromBody] WhatsAppMessage message)
