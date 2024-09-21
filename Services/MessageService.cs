@@ -46,10 +46,10 @@ namespace InstaHub.Services
                     throw new Exception("Message sent successfully, but storing message failed", ex);
                 }
             }
-    }
+        }
 
 
-    public async Task AddMessageToTicketAsync(int ticketId, WhatsAppMessage message)
+        public async Task AddMessageToTicketAsync(int ticketId, WhatsAppMessage message)
         {
             // Save the message and link it to the ticket
             await _messageRepository.AddMessageAsync(ticketId, message);
