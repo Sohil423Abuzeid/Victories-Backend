@@ -1,7 +1,9 @@
 ﻿using Azure;
 using InstaHub.Dto;
+using InstaHub.Models;
 using InstaHub.Services;
 using InstaHub.Services.Authentication;
+using InstaHub.Services.ChannelsServices.WhatsService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -152,7 +154,51 @@ namespace InstaHub.Controllers
                 return StatusCode(500, "An error occurred while updating the admin password.");
             }
         }
+        [HttpPost("delete-photo")]
+        public async Task<IActionResult> DeletePhoto(int AdminId)
+        {
+            try
+            {
+                await _adminService.DeletePhotoAsync(AdminId);
+                return StatusCode(200, new { message = "photo deleted successfully." });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while deleting photo.");
+                return StatusCode(500, new { message = "An error occurred while deleting the photo." });
+            }
+        }
 
+        [HttpPost("update-photo")]
+        public async Task<IActionResult> UpdatePhoto(int AdminId,string url)
+        {
+            try
+            {
+                await _adminService.UpdatePhotoAsync(AdminId,url);
+                return StatusCode(200, new { message = "photo deleted successfully." });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while deleting photo.");
+                return StatusCode(500, new { message = "An error occurred while deleting the photo." });
+            }
+        }
+
+        [HttpGet("reset-password")]
+        public async Task<IActionResult> ResetPassword(string number, string email)
+        {
+            try
+            {
+                var adminid = _adminService.GetAdminByNumberAndIdAsync(number, email);
+                var otp = _authService.GenerateOTP();
+                return StatusCode(200, new { id =adminid , otp=otp });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while reset password.");
+                return StatusCode(500, new { message = "An error occurred while reseting the password." });
+            }
+        }
         // ## email & number => return 
         //// Placeholder for the forget password functionality
         //[HttpPost("{adminId}/forget-password")]
@@ -162,7 +208,7 @@ namespace InstaHub.Controllers
         //}
         // 1. forget password => Return ID => validate OTP => reset password 
 
-          
+
 
         /// GET Ticket by admin Id
 
