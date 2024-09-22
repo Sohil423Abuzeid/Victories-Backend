@@ -10,6 +10,8 @@ namespace InstaHub.Services
         Task<Admin> AddAdminAsync(AdminDto adminDto);
         Task<bool> DeleteAdminByIdAsync(int adminId);
         Task<bool> UpdatePasswordAsync(int adminId, UpdatePasswordDto updatePasswordDto);
-
+        Task<bool> DeletePhotoAsync(int adminId);
+        Task<bool> UpdatePhotoAsync(int adminId,string url);
+        Task<int> GetAdminByNumberAndIdAsync(string number, string email);
     }
 }
