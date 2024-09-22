@@ -282,5 +282,27 @@ namespace InstaHub.Controllers
                 return StatusCode(500, "An error occurred while retrieving the tickets.");
             }
         }
+        [HttpGet("Get-all-States")]
+        public async Task<IActionResult> GetStates()
+        {
+            try
+            {
+                var enums = Enum.GetValues(typeof(States)) 
+                       .Cast<States>()            
+                       .Select(e => new
+                       {
+                           Id = Convert.ToInt32(e),  
+                           Name = e.ToString()       
+                       })
+                       .ToList();
+
+                return Ok(enums);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving states.");
+                return StatusCode(500, "An error occurred while retrieving the states.");
+            }
+        }
     }
 }
