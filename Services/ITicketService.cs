@@ -25,5 +25,6 @@ namespace InstaHub.Services
         Task<Ticket> OpenTicketAsync(int ticketId, int adminId);
 
         Task<bool> MarkTicketAsUrgent(int ticketId);
+        Task UpdateTicketAsync(Ticket ticket);
     }
 }
