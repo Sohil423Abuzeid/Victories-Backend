@@ -24,7 +24,7 @@ namespace InstaHub.Controllers
                 if (customer == null)
                 {
                     return NotFound("Customer not found.");
-                }              
+                }
 
                 return Ok(customer);
             }
@@ -35,6 +35,6 @@ namespace InstaHub.Controllers
                 return StatusCode(500, "An error occurred while retrieving the customer details.");
             }
         }
-
+        
     }
 }
