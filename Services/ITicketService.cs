@@ -27,7 +27,7 @@ namespace InstaHub.Services
         Task<bool> MarkTicketAsUrgent(int ticketId);
         Task<bool> MarkTicketAsNotUrgent(int ticketId);
         Task UpdateTicketAsync(Ticket ticket);
-
+        Task<IEnumerable<dynamic>> GetAllTicketsAsync();
 
     }
 }

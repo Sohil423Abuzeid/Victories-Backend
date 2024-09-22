@@ -116,5 +116,10 @@ namespace InstaHub.Repositories
             _context.Update(existingTicket);
             await _context.SaveChangesAsync();
         }
+        public async Task<List<Ticket>> GetAllTicketByAsync()
+        {
+            var tickets = await _context.Tickets.ToListAsync();
+            return tickets;
+        }
     }
 }

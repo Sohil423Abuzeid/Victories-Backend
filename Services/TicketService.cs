@@ -99,5 +99,23 @@ namespace InstaHub.Services
         {
            await _ticketRepository.UpdateTicketAsync(ticket);
         }
+        public async Task<IEnumerable<dynamic>> GetAllTicketsAsync()
+        {
+            var tickets = await _ticketRepository.GetAllTicketByAsync();
+            var ticketjson = tickets.Select(ticket => new
+            {
+                Urgent = ticket.Urgent,
+                StateId = ticket.StateId,
+                State = ((States)ticket.StateId).ToString(),
+                Title = ticket.Label,
+                CategoryId = ticket.Category.Id,
+                Category = ticket.Category,
+                Admin = ticket.AdminsId.LastOrDefault(),
+                Date = ticket.CreatedAt.ToString(),
+                SentimentDegree = ticket.DegreeOfSentiment,
+                Sentiment = ticket.SentimentAnalysis
+            }).ToList();
+            return ticketjson;
+        }
     }
 }

@@ -30,7 +30,7 @@ namespace InstaHub.Controllers
             _messageSocketHandler = messageSocketHandler;
         }
 
-       
+
         [HttpPost("{ticketId}/{messaging_product}/sendMessage")]
         public async Task<IActionResult> SendMessage(int ticketId, string messaging_product, [FromBody] SendMessageDto message)
         {
@@ -171,7 +171,7 @@ namespace InstaHub.Controllers
                 var sentimentUrl = $"https://instahub-docker-hub-gwdpdpdje3c8daen.germanywestcentral-01.azurewebsites.net/sentiment?chat={encodedMessages}";
 
                 // Get categories from the service
-                var categories =await _categoryService.GetCategories();
+                var categories = await _categoryService.GetCategories();
                 var classList = categories.Select(c => c.Name).ToList(); // Assuming 'Name' is the property for category name
 
                 // Create the classification payload
@@ -289,7 +289,7 @@ namespace InstaHub.Controllers
                 return StatusCode(500, "An error occurred while updating the ticket.");
             }
         }
-        
+
         [HttpPut("{ticketId}/{adminId}/closeTicket")]
         public async Task<IActionResult> CloseTicket(int ticketId, int adminId)
         {
@@ -307,7 +307,7 @@ namespace InstaHub.Controllers
 
                 return Ok(closedTicket);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex, "Error closing ticket.");
                 return StatusCode(500, "An error occurred while closing the ticket.");
@@ -433,18 +433,18 @@ namespace InstaHub.Controllers
                 return StatusCode(500, "An error occurred while retrieving the tickets.");
             }
         }
-       
+
         [HttpGet("Get-all-States")]
-        public async Task<IActionResult> GetStates()
+        public async Task<IActionResult> GetStatess()
         {
             try
             {
-                var enums = Enum.GetValues(typeof(States)) 
-                       .Cast<States>()            
+                var enums = Enum.GetValues(typeof(States))
+                       .Cast<States>()
                        .Select(e => new
                        {
-                           Id = Convert.ToInt32(e),  
-                           Name = e.ToString()       
+                           Id = Convert.ToInt32(e),
+                           Name = e.ToString()
                        })
                        .ToList();
 
@@ -456,25 +456,39 @@ namespace InstaHub.Controllers
                 return StatusCode(500, "An error occurred while retrieving the states.");
             }
         }
-      
+
         [HttpPost("reverse-Urgent")]
         public async Task<IActionResult> ReverseTicketUrgent(int TicketId)
         {
             try
             {
-               Ticket ticket =await _ticketService.GetTicketByIdAsync(TicketId);
+                Ticket ticket = await _ticketService.GetTicketByIdAsync(TicketId);
 
-                if(ticket.Urgent)
+                if (ticket.Urgent)
                     await _ticketService.MarkTicketAsNotUrgent(TicketId);
                 else
                     await _ticketService.MarkTicketAsUrgent(TicketId);
 
-               return Ok(new {message= "Ticket urgent chnaged."});
+                return Ok(new { message = "Ticket urgent chnaged." });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error change urgent.");
-                return StatusCode(500,new { message = "An error occurred while change urgent." });
+                return StatusCode(500, new { message = "An error occurred while change urgent." });
+            }
+        }
+        [HttpGet("{all-tickets}")]
+        public async Task<IActionResult> GetAllTickets()
+        {
+            try
+            {
+                var response = await _ticketService.GetAllTicketsAsync();
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting tickets.");
+                return StatusCode(500, "An error occurred while getting tickets.");
             }
         }
     }
