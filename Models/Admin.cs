@@ -26,6 +26,7 @@ namespace InstaHub.Models
 
         public int CountOfTickets { get; set; }
 
+        public string PhotoUrl { get; set; } = "https://ibb.co/nm7PSgC";
         // many to mnay relatioships 
     }
 }
