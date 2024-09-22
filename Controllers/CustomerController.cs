@@ -35,6 +35,20 @@ namespace InstaHub.Controllers
                 return StatusCode(500, "An error occurred while retrieving the customer details.");
             }
         }
-        
+        [HttpGet("{get-all-cosstmers}")]
+        public async Task<IActionResult> GetAllTickets()
+        {
+            try
+            {
+                var response = await _customerService.GetAllTicketsAsync();
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting coustmers.");
+                return StatusCode(500, "An error occurred while getting coustmers.");
+            }
+        }
+
     }
 }
