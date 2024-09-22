@@ -95,8 +95,22 @@ builder.Services.AddAuthorization(options =>
         policy.RequireClaim(ClaimTypes.Role, "Owner"));
 });
 
-var app = builder.Build();
+//NOT BEST PRACTICE, I KNOW BUT JUST FOR limited time 
+// Add services to the container.
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                   .AllowAnyMethod()
+                   .AllowAnyHeader();
+        });
+});
 
+var app = builder.Build();
+// Enable CORS
+app.UseCors("AllowAll");
 // 2. Middleware Configuration
 
 // Enable Swagger (API documentation)
@@ -115,6 +129,7 @@ else
     });
 }
 
+
 // Enable WebSocket support
 app.UseWebSockets();
 
@@ -124,9 +139,6 @@ app.MapWebSocketManager("/ws", socketHandler); // Define WebSocket endpoint
 
 // Configure HTTPS redirection (redirect HTTP requests to HTTPS)
 app.UseHttpsRedirection();
-
-// Enable Authentication Middleware
-app.UseAuthentication();
 
 // Enable Authorization Middleware
 app.UseAuthentication();

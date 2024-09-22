@@ -91,8 +91,8 @@ namespace InstaHub.Controllers
                     {
                         CustomerId = message.CustomerId,
                         CreatedAt = DateTime.UtcNow,
-                        State = States.notStarted.ToString(),
-                        StateId = (int)States.notStarted,
+                        State = States.open.ToString(),
+                        StateId = (int)States.open,
                     };
                     ticket.Messages.Add(message);
                     ticket = await _ticketService.CreateTicketAsync(ticket);
@@ -104,7 +104,8 @@ namespace InstaHub.Controllers
                 await _messageService.AddMessageToTicketAsync(ticket.Id, message);
 
                 // Send to front-end 
-                await _messageSocketHandler.SendMessageToAllAsync($"New message with ticket id {message.TicketId} from {message.CustomerId}: {message.MessageBody}");
+                await _messageSocketHandler.SendMessageToAllAsync($"New message");
+                await _messageSocketHandler.SendMessageToAllAsync($" with ticket id {message.TicketId} from {message.CustomerId}: {message.MessageBody}");
                 return Ok(ticket);
             }
             catch (Exception ex)

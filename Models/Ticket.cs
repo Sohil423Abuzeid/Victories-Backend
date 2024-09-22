@@ -10,7 +10,9 @@ namespace InstaHub.Models
         public Category Category { get; set; }
         public List<int> AdminsId { get; set; } = new List<int>();
 
-        public float SentimentAnalysis { get; set; }
+        public float DegreeOfSentiment { get; set; }
+
+        public string SentimentAnalysis { get; set; }
         public int Rate { get; set; }
 
         public DateTime CreatedAt { get; set; }
@@ -18,8 +20,8 @@ namespace InstaHub.Models
 
         public string Label { get; set; }
 
-        public int StateId { get; set; } = (int)States.notStarted;
-        public string State { get; set; } = States.notStarted.ToString();
+        public int StateId { get; set; }
+        public string State { get; set; }
 
         public string Summary { get; set; }
 

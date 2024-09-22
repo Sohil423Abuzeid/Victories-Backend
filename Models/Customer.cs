@@ -7,9 +7,6 @@ namespace InstaHub.Models
     {
         [Key]
         public string CustomerId {get; set;}
-        public string ContactWay {get; set;}
-
-        public DateTime RegistrationDate { get; set; }
         public DateTime FirstTicketDate { get; set; }
         public List<Ticket> Tickets {get; set;}
     }

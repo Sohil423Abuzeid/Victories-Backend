@@ -25,7 +25,9 @@ namespace InstaHub.Repositories
                 return false;
             }
 
-            ticket.State = States.closed.ToString();
+            ticket.State = States.completed.ToString();
+            ticket.StateId = (int) States.completed;
+            ticket.Urgent = false;
             ticket.ClosedAt = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();

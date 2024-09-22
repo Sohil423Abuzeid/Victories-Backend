@@ -17,7 +17,8 @@ namespace InstaHub.Services
                 UserName = adminDto.UserName,
                 PhoneNumber = adminDto.PhoneNumber,
                 Email = adminDto.Email,
-                HashPassword = hashedPassword
+                HashPassword = hashedPassword,
+                RegisterationDate = DateTime.Now
             };
 
             await _context.Admins.AddAsync(admin);
@@ -61,7 +62,7 @@ namespace InstaHub.Services
             }
 
             // Check if the old password matches the stored hashed password
-            if (_authService.VerifyPassword(admin,dto.OldPassword))
+            if (!_authService.VerifyPassword(admin,dto.OldPassword))
             {
                 return false; // Old password is incorrect
             }

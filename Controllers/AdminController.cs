@@ -2,6 +2,7 @@
 using InstaHub.Dto;
 using InstaHub.Services;
 using InstaHub.Services.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -23,7 +24,16 @@ namespace InstaHub.Controllers
             try
             {
                 var token = await _authService.Login(loginDto);
-                Response.Cookies.Append("access_token", token);
+                var cookieOptions = new CookieOptions
+                {
+                    HttpOnly = false, // Set to false if you want to access via JavaScript
+                    Secure = false,    // Only use this if you're on HTTPS, otherwise set to false for localhost
+                    SameSite = SameSiteMode.None, // None if you need cross-origin requests
+                    Expires = DateTime.Now.AddDays(7), // Set cookie expiration
+                    IsEssential = true, // Ensures the cookie isn't affected by consent policy
+                };
+
+                Response.Cookies.Append("access_token", token, cookieOptions);
                 return Ok(new { Token = token });
             }
             catch (UnauthorizedAccessException)
@@ -38,6 +48,7 @@ namespace InstaHub.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("admins")]
         public async Task<IActionResult> GetAdmins()
         {
@@ -142,11 +153,18 @@ namespace InstaHub.Controllers
             }
         }
 
-        // Placeholder for the forget password functionality
-        [HttpPost("{adminId}/forget-password")]
-        public IActionResult ForgetPassword(int adminId)
-        {
-            return StatusCode(501, "This functionality is not yet implemented.");
-        }
+        // ## email & number => return 
+        //// Placeholder for the forget password functionality
+        //[HttpPost("{adminId}/forget-password")]
+        //public IActionResult ForgetPassword(int adminId)
+        //{
+        //    return StatusCode(501, "This functionality is not yet implemented.");
+        //}
+        // 1. forget password => Return ID => validate OTP => reset password 
+
+          
+
+        /// GET Ticket by admin Id
+
     }
 }

@@ -20,9 +20,13 @@ namespace InstaHub.Models
 
         public string HashPassword { get; set; }
 
-        public DateTime RegisterationDate { get; set; }
+        public DateTime RegisterationDate { get; set; } 
 
         public String Role { get; set; } = "admin";
+
+        public int CountOfTickets { get; set; }
+
+        // many to mnay relatioships 
     }
 }
 
