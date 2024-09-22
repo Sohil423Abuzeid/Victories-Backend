@@ -27,6 +27,17 @@ namespace InstaHub.Models
         public int CountOfTickets { get; set; }
 
         // many to mnay relatioships 
+        public List<TicketAdmin> TicketAdmins { get; set; } = new List<TicketAdmin>();
+
+    }
+
+    public class TicketAdmin
+    {
+        public int TicketId { get; set; }
+        public Ticket Ticket { get; set; }
+
+        public int AdminId { get; set; }
+        public Admin Admin { get; set; }
     }
 }
 
