@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <ActiveDebugProfile>Container (Dockerfile)</ActiveDebugProfile>
-    <NameOfLastUsedPublishProfile>F:\SmartSparks\InstaHub\Properties\PublishProfiles\InstaHubBackend.pubxml</NameOfLastUsedPublishProfile>
+    <ActiveDebugProfile>https</ActiveDebugProfile>
+    <NameOfLastUsedPublishProfile>F:\SmartSparks\InstaHub\Properties\PublishProfiles\InstaHub20240922062720.pubxml</NameOfLastUsedPublishProfile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>

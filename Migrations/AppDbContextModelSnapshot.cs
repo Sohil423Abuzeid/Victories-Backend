@@ -53,6 +53,10 @@ namespace InstaHub.Migrations
                     b.Property<DateTime>("RegisterationDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
