@@ -1,6 +1,7 @@
 ﻿using InstaHub.Controllers;
 using InstaHub.Models;
 using InstaHub.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace InstaHub.Services
 {
@@ -92,6 +93,11 @@ namespace InstaHub.Services
             {
                 return false;
             }
+        }
+
+        public async Task UpdateTicketAsync(Ticket ticket)
+        {
+           await _ticketRepository.UpdateTicketAsync(ticket);
         }
     }
 }

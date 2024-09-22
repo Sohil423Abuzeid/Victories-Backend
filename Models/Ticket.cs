@@ -26,5 +26,7 @@ namespace InstaHub.Models
         public string Summary { get; set; }
 
         public bool Urgent { get; set; }
+        public List<TicketAdmin> TicketAdmins { get; set; } = new List<TicketAdmin>();
+
     }
 }

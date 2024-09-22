@@ -1,5 +1,6 @@
 ﻿using InstaHub.Controllers;
 using InstaHub.Models;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -96,6 +97,24 @@ namespace InstaHub.Repositories
 
             await _context.SaveChangesAsync();
             return existingTicket;
+        }
+
+        public async Task UpdateTicketAsync(Ticket ticket)
+        {
+            var existingTicket = await GetTicketByIdAsync(ticket.Id);
+            existingTicket.State = ticket.State;
+            existingTicket.Category = ticket.Category;
+            existingTicket.Label = ticket.Label;
+            existingTicket.Messages = ticket.Messages;
+            existingTicket.Rate = ticket.Rate;
+            existingTicket.SentimentAnalysis = ticket.SentimentAnalysis;
+            existingTicket.State = ticket.State;
+            existingTicket.StateId = ticket.StateId;
+            existingTicket.Summary = ticket.Summary;
+            existingTicket.Urgent = ticket.Urgent;
+
+            _context.Update(existingTicket);
+            await _context.SaveChangesAsync();
         }
     }
 }

@@ -202,6 +202,21 @@ namespace InstaHub.Migrations
                     b.ToTable("Tickets");
                 });
 
+            modelBuilder.Entity("InstaHub.Models.TicketAdmin", b =>
+                {
+                    b.Property<int>("TicketId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AdminId")
+                        .HasColumnType("int");
+
+                    b.HasKey("TicketId", "AdminId");
+
+                    b.HasIndex("AdminId");
+
+                    b.ToTable("TicketAdmin");
+                });
+
             modelBuilder.Entity("InstaHub.Models.WhatsAppMessage", b =>
                 {
                     b.HasBaseType("InstaHub.Models.Message");
@@ -255,6 +270,30 @@ namespace InstaHub.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("InstaHub.Models.TicketAdmin", b =>
+                {
+                    b.HasOne("InstaHub.Models.Admin", "Admin")
+                        .WithMany("TicketAdmins")
+                        .HasForeignKey("AdminId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("InstaHub.Models.Ticket", "Ticket")
+                        .WithMany("TicketAdmins")
+                        .HasForeignKey("TicketId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Admin");
+
+                    b.Navigation("Ticket");
+                });
+
+            modelBuilder.Entity("InstaHub.Models.Admin", b =>
+                {
+                    b.Navigation("TicketAdmins");
+                });
+
             modelBuilder.Entity("InstaHub.Models.Customer", b =>
                 {
                     b.Navigation("Tickets");
@@ -263,6 +302,8 @@ namespace InstaHub.Migrations
             modelBuilder.Entity("InstaHub.Models.Ticket", b =>
                 {
                     b.Navigation("Messages");
+
+                    b.Navigation("TicketAdmins");
                 });
 #pragma warning restore 612, 618
         }

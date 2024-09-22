@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace InstaHub.Controllers
@@ -17,6 +19,7 @@ namespace InstaHub.Controllers
         private readonly IMessageService _messageService;
         private readonly ILogger<TicketController> _logger;
         private readonly MessageSocketHandler _messageSocketHandler;
+        private readonly CategoryService _categoryService;
 
         // Constructor for dependency injection
         public TicketController(ITicketService ticketService, IMessageService messageService, ILogger<TicketController> logger, MessageSocketHandler messageSocketHandler)
@@ -62,8 +65,13 @@ namespace InstaHub.Controllers
                 return StatusCode(500, new { success = false, message = "An unexpected error occurred." });
             }
         }
-   
-        // This API will be hit by Meta, not by us
+
+        // In-memory store for messages grouped by customer and timestamp
+        private static readonly Dictionary<string, (List<WhatsAppMessage> Messages, DateTime FirstReceived)> _messageBuffer = new();
+
+        // Lock object to prevent concurrent access to the message buffer
+        private static readonly object _lock = new();
+
         [HttpPost("receive-whatsapp-messages")]
         public async Task<IActionResult> ReceiveWhatsAppMessages([FromBody] WhatsAppMessage message)
         {
@@ -74,39 +82,40 @@ namespace InstaHub.Controllers
 
             try
             {
-                // Check for an open ticket within 5 minutes
-                var ticket = await _ticketService.GetOpenTicketByCustomerIdAsync(message.CustomerId);
+                bool isFirstMessage = false;
 
-                if (ticket == null || (DateTime.UtcNow - ticket.CreatedAt).TotalMinutes > 5)
+                lock (_lock)
                 {
-                    // Close the old ticket if necessary
-                    if (ticket != null && (DateTime.UtcNow - ticket.CreatedAt).TotalMinutes > 5)
+                    // Check if there are existing messages for this customer
+                    if (_messageBuffer.TryGetValue(message.CustomerId, out var entry))
                     {
-                        await _ticketService.CloseTicketAsync(ticket.Id);
+                        // Add the new message to the existing list
+                        entry.Messages.Add(message);
+                        _messageBuffer[message.CustomerId] = entry;
                     }
-                    // Save the message in the database 
-
-                    // Create a new ticket
-                    ticket = new Ticket
+                    else
                     {
-                        CustomerId = message.CustomerId,
-                        CreatedAt = DateTime.UtcNow,
-                        State = States.open.ToString(),
-                        StateId = (int)States.open,
-                    };
-                    ticket.Messages.Add(message);
-                    ticket = await _ticketService.CreateTicketAsync(ticket);
-                    await _messageService.StoreMessage(ticket.Id,message);
-
+                        // If this is the first message, create a new entry in the buffer
+                        _messageBuffer[message.CustomerId] = (new List<WhatsAppMessage> { message }, DateTime.UtcNow);
+                        isFirstMessage = true; // This is the first message from this customer
+                    }
                 }
 
-                // Associate the message with the ticket
-                await _messageService.AddMessageToTicketAsync(ticket.Id, message);
+                // If this is the first message, start a background task to create the ticket after 5 minutes
+                if (isFirstMessage)
+                {
+                    _ = Task.Run(async () =>
+                    {
+                        await Task.Delay(TimeSpan.FromMinutes(5));
+                        await CreateTicketForCustomerAsync(message.CustomerId);
+                    });
+                }
 
-                // Send to front-end 
-                await _messageSocketHandler.SendMessageToAllAsync($"New message");
-                await _messageSocketHandler.SendMessageToAllAsync($" with ticket id {message.TicketId} from {message.CustomerId}: {message.MessageBody}");
-                return Ok(ticket);
+                // Notify front-end 
+                await _messageSocketHandler.SendMessageToAllAsync("New message received");
+                await _messageSocketHandler.SendMessageToAllAsync($"Message received from {message.CustomerId}: {message.MessageBody}");
+
+                return Ok("Message received");
             }
             catch (Exception ex)
             {
@@ -115,6 +124,147 @@ namespace InstaHub.Controllers
             }
         }
 
+        private async Task CreateTicketForCustomerAsync(string customerId)
+        {
+            List<WhatsAppMessage> messages;
+            DateTime firstReceived;
+
+            // Safely access and remove messages for the given customer
+            lock (_lock)
+            {
+                if (!_messageBuffer.TryGetValue(customerId, out var entry))
+                {
+                    return; // No messages found for this customer
+                }
+
+                messages = entry.Messages;
+                firstReceived = entry.FirstReceived;
+
+                // Remove the entry from the buffer
+                _messageBuffer.Remove(customerId);
+            }
+
+            // Concatenate all messages into a single string
+            var allMessages = string.Join("\n", messages.Select(m => m.MessageBody));
+
+            // Create a new ticket with all the messages received in the 5-minute window
+            var ticket = new Ticket
+            {
+                CustomerId = customerId,
+                CreatedAt = DateTime.UtcNow, // Set to the current time for ticket creation
+                State = States.open.ToString(),
+                StateId = (int)States.open,
+                Messages = messages, // Assign all messages to the ticket
+            };
+
+            try
+            {
+                // Save the ticket in the database
+                ticket = await _ticketService.CreateTicketAsync(ticket);
+
+                // Encode the messages string to be URL-safe
+                var encodedMessages = Uri.EscapeDataString(allMessages);
+
+                // Construct URLs for the `summary`, `label`, and `sentiment` endpoints
+                var summaryUrl = $"https://instahub-docker-hub-gwdpdpdje3c8daen.germanywestcentral-01.azurewebsites.net/summary?chat={encodedMessages}";
+                var labelUrl = $"https://instahub-docker-hub-gwdpdpdje3c8daen.germanywestcentral-01.azurewebsites.net/label?chat={encodedMessages}";
+                var sentimentUrl = $"https://instahub-docker-hub-gwdpdpdje3c8daen.germanywestcentral-01.azurewebsites.net/sentiment?chat={encodedMessages}";
+
+                // Get categories from the service
+                var categories =await _categoryService.GetCategories();
+                var classList = categories.Select(c => c.Name).ToList(); // Assuming 'Name' is the property for category name
+
+                // Create the classification payload
+                var classificationPayload = new
+                {
+                    chat = allMessages,
+                    classes = classList
+                };
+
+                // Serialize the classification payload to JSON
+                var classificationJson = JsonSerializer.Serialize(classificationPayload);
+                var classificationUrl = "https://instahub-docker-hub-gwdpdpdje3c8daen.germanywestcentral-01.azurewebsites.net/classification";
+
+                using (var httpClient = new HttpClient())
+                {
+                    // Make the requests to get summary, label, sentiment, and classification concurrently
+                    var summaryResponseTask = httpClient.GetAsync(summaryUrl);
+                    var labelResponseTask = httpClient.GetAsync(labelUrl);
+                    var sentimentResponseTask = httpClient.GetAsync(sentimentUrl);
+                    var classificationResponseTask = httpClient.PostAsync(classificationUrl, new StringContent(classificationJson, Encoding.UTF8, "application/json"));
+
+                    // Await all responses
+                    var summaryResponse = await summaryResponseTask;
+                    var labelResponse = await labelResponseTask;
+                    var sentimentResponse = await sentimentResponseTask;
+                    var classificationResponse = await classificationResponseTask;
+
+                    // Check and read the summary response
+                    if (summaryResponse.IsSuccessStatusCode)
+                    {
+                        var summary = await summaryResponse.Content.ReadAsStringAsync();
+                        ticket.Summary = summary;
+                    }
+                    else
+                    {
+                        _logger.LogWarning($"Failed to retrieve summary for ticket ID {ticket.Id}. Status code: {summaryResponse.StatusCode}");
+                    }
+
+                    // Check and read the label response
+                    if (labelResponse.IsSuccessStatusCode)
+                    {
+                        var label = await labelResponse.Content.ReadAsStringAsync();
+                        ticket.Label = label;
+                    }
+                    else
+                    {
+                        _logger.LogWarning($"Failed to retrieve label for ticket ID {ticket.Id}. Status code: {labelResponse.StatusCode}");
+                    }
+
+                    // Check and read the sentiment response
+                    if (sentimentResponse.IsSuccessStatusCode)
+                    {
+                        var sentimentJson = await sentimentResponse.Content.ReadAsStringAsync();
+                        var sentiment = JsonSerializer.Deserialize<SentimentResponse>(sentimentJson);
+                        if (sentiment != null)
+                        {
+                            ticket.SentimentAnalysis = sentiment.Result;
+                            ticket.DegreeOfSentiment = sentiment.Degree;
+                        }
+                    }
+                    else
+                    {
+                        _logger.LogWarning($"Failed to retrieve sentiment analysis for ticket ID {ticket.Id}. Status code: {sentimentResponse.StatusCode}");
+                    }
+
+                    // Check classification response
+                    if (classificationResponse.IsSuccessStatusCode)
+                    {
+                        var classificationJson = await classificationResponse.Content.ReadAsStringAsync();
+                        // Process classification response if needed
+                        // Example: Use classificationJson to update ticket or log
+                    }
+                    else
+                    {
+                        _logger.LogWarning($"Failed to classify messages for ticket ID {ticket.Id}. Status code: {classificationResponse.StatusCode}");
+                    }
+                }
+
+                // Now update the ticket in the database with both summary and label
+                await _ticketService.UpdateTicketAsync(ticket);
+
+                // Notify front-end that a new ticket has been created
+                await _messageSocketHandler.SendMessageToAllAsync($"Ticket created with ID {ticket.Id} for customer {customerId}");
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error creating ticket for customer {customerId}");
+            }
+        }
+
+
+        //add endpoint to make in progress
         [HttpPut("{ticketId}/{adminId}/openTicket")]
         public async Task<IActionResult> OpenTicket(int ticketId, int adminId)
         {
@@ -283,6 +433,7 @@ namespace InstaHub.Controllers
                 return StatusCode(500, "An error occurred while retrieving the tickets.");
             }
         }
+       
         [HttpGet("Get-all-States")]
         public async Task<IActionResult> GetStates()
         {
