@@ -54,23 +54,22 @@ namespace InstaHub.Services
 
         public async Task<bool> UpdatePasswordAsync(int adminId, UpdatePasswordDto dto)
         {
-            var owner = await _context.Admins.SingleOrDefaultAsync(a => a.Id == adminId);
-            if (owner == null)
+            var admin = await _context.Admins.SingleOrDefaultAsync(a => a.Id == adminId);
+            if (admin == null)
             {
                 throw new InvalidOperationException("Owner not found.");
             }
 
             // Check if the old password matches the stored hashed password
-            var hashedOldPassword = _authService.HashPassword(dto.OldPassword);
-            if (owner.HashPassword != hashedOldPassword)
+            if (_authService.VerifyPassword(admin,dto.OldPassword))
             {
                 return false; // Old password is incorrect
             }
 
             var hashedNewPassword = _authService.HashPassword(dto.NewPassword);
-            owner.HashPassword = hashedNewPassword;
+            admin.HashPassword = hashedNewPassword;
 
-            _context.Admins.Update(owner);
+            _context.Admins.Update(admin);
             await _context.SaveChangesAsync();
 
             return true; // Password updated successfully
