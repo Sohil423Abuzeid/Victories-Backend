@@ -1,10 +1,7 @@
 ﻿using InstaHub.Dto;
 using InstaHub.Models;
 using InstaHub.Services.Authentication;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Text;
-using static System.Net.WebRequestMethods;
 
 namespace InstaHub.Services
 {
@@ -49,15 +46,7 @@ namespace InstaHub.Services
             }
             return admin;
         }
-        public async Task<int> GetAdminByNumberAndIdAsync(string number , string email)
-        {
-            var admin = await _context.Admins.FirstOrDefaultAsync(a => a.PhoneNumber == number && a.Email==email);
-            if (admin == null)
-            {
-                throw new Exception($"Admin with Id {admin.Id} not found.");
-            }
-            return admin.Id;
-        }
+
         public async Task<IEnumerable<Admin>> GetAllAdminsAsync()
         {
             var admins = await _context.Admins.ToListAsync();
@@ -73,7 +62,7 @@ namespace InstaHub.Services
             }
 
             // Check if the old password matches the stored hashed password
-            if (!_authService.VerifyPassword(admin, dto.OldPassword))
+            if (!_authService.VerifyPassword(admin,dto.OldPassword))
             {
                 return false; // Old password is incorrect
             }
@@ -86,38 +75,5 @@ namespace InstaHub.Services
 
             return true; // Password updated successfully
         }
-        public async Task<bool> DeletePhotoAsync(int adminId)
-        {
-            var admin = await GetAdminByIdAsync(adminId);
-            if (admin == null)
-            {
-                throw new InvalidOperationException("Owner not found.");
-            }
-
-            admin.PhotoUrl = "https://ibb.co/nm7PSgC";
-
-            _context.Admins.Update(admin);
-            
-            await _context.SaveChangesAsync();
-
-            return true; // photo deleted successfully
-        }
-        public async Task<bool> UpdatePhotoAsync(int adminId,string url)
-        {
-            var admin = await GetAdminByIdAsync(adminId);
-            if (admin == null)
-            {
-                throw new InvalidOperationException("Owner not found.");
-            }
-
-            admin.PhotoUrl = url;
-
-            _context.Admins.Update(admin);
-
-            await _context.SaveChangesAsync();
-
-            return true; // photo updated successfully
-        }
-       
     }
 }

@@ -11,8 +11,6 @@ namespace InstaHub.Models
 
         public string FirstName { get; set; }
         public string LastName { get; set; }
-      
-        public string PhotoUrl { get; set; } = "https://ibb.co/nm7PSgC";
 
         [Phone]
         public string PhoneNumber { get; set; }
@@ -37,7 +35,7 @@ namespace InstaHub.Models
     {
         public int TicketId { get; set; }
         public Ticket Ticket { get; set; }
-        // many to mnay relatioships 
+
         public int AdminId { get; set; }
         public Admin Admin { get; set; }
     }

@@ -84,22 +84,6 @@ namespace InstaHub.Services.Authentication
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
-        public string GenerateOTP()
-        {
-            using (var rng = new RNGCryptoServiceProvider())
-            {
-                var randomNumber = new byte[6];
-                rng.GetBytes(randomNumber);  // Fills the array with random bytes
 
-                var otpBuilder = new StringBuilder(6);
-                foreach (byte num in randomNumber)
-                {
-                    // Convert each byte into a single digit between 0 and 9
-                    otpBuilder.Append(num % 10);
-                }
-
-                return otpBuilder.ToString();
-            }
-        }
     }
 }

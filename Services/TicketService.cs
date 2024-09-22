@@ -80,24 +80,11 @@ namespace InstaHub.Services
                 return false;
             }
         }
-        public async Task<bool> MarkTicketAsNotUrgent(int ticketId)
-        {
-            try
-            {
-                var ticket = await _ticketRepository.GetTicketByIdAsync(ticketId);
-                ticket.Urgent = false;
-                var updateTicket = await _ticketRepository.UpdateTicketAsync(ticketId, ticket);
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
 
         public async Task UpdateTicketAsync(Ticket ticket)
         {
            await _ticketRepository.UpdateTicketAsync(ticket);
         }
+
     }
 }

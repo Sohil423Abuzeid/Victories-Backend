@@ -456,26 +456,5 @@ namespace InstaHub.Controllers
                 return StatusCode(500, "An error occurred while retrieving the states.");
             }
         }
-      
-        [HttpPost("reverse-Urgent")]
-        public async Task<IActionResult> ReverseTicketUrgent(int TicketId)
-        {
-            try
-            {
-               Ticket ticket =await _ticketService.GetTicketByIdAsync(TicketId);
-
-                if(ticket.Urgent)
-                    await _ticketService.MarkTicketAsNotUrgent(TicketId);
-                else
-                    await _ticketService.MarkTicketAsUrgent(TicketId);
-
-               return Ok(new {message= "Ticket urgent chnaged."});
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error change urgent.");
-                return StatusCode(500,new { message = "An error occurred while change urgent." });
-            }
-        }
     }
 }
