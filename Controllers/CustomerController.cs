@@ -36,11 +36,11 @@ namespace InstaHub.Controllers
             }
         }
         [HttpGet("{get-all-cosstmers}")]
-        public async Task<IActionResult> GetAllTickets()
+        public async Task<IActionResult> GetAllcustomers()
         {
             try
             {
-                var response = await _customerService.GetAllTicketsAsync();
+                var response = await _customerService.GetAllCoustmers();
                 return Ok(response);
             }
             catch (Exception ex)
