@@ -11,5 +11,6 @@ namespace InstaHub.Services.Authentication
         string HashPassword(string password);
         Task<string> Login(LoginDto loginDto);
         bool VerifyPassword(Admin user, string password);
+        string GenerateOTP();
     }
 }

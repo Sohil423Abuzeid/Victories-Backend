@@ -47,7 +47,34 @@ namespace InstaHub.Services
                 }
             }
         }
+        public async Task SendOTPAsync(string )
+        {
+            WhatsAppMessage retunedMessage = null;
 
+            try
+            {
+                if (messaging_product == "whatsapp")
+                    retunedMessage = await _whatsAppService.SendMessage(message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error sending message", ex);
+            }
+
+
+            // Save the message if it was successfully sent
+            if (retunedMessage != null)
+            {
+                try
+                {
+                    await _messageRepository.AddMessageAsync(ticketId, retunedMessage);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Message sent successfully, but storing message failed", ex);
+                }
+            }
+        }
 
         public async Task AddMessageToTicketAsync(int ticketId, WhatsAppMessage message)
         {
