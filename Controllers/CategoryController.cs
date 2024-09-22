@@ -6,13 +6,13 @@ namespace InstaHub.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoryController(CategoryService _categoryService) : ControllerBase
+    public class CategoryController(ICategoryService _categoryService) : ControllerBase
     { 
         // GET: api/categories
         [HttpGet]
         public async Task<IActionResult> GetCategories()
         {
-            var categories = await _categoryService.GetCategories();
+            var categories = await _categoryService.GetCategoriesAsync();
             return Ok(categories);
         }
     }
