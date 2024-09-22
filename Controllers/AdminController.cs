@@ -181,6 +181,22 @@ namespace InstaHub.Controllers
                 return StatusCode(500, new { message = "An error occurred while deleting the photo." });
             }
         }
+
+        [HttpGet("reset-password")]
+        public async Task<IActionResult> ResetPassword(string number, string email)
+        {
+            try
+            {
+                var adminid = _adminService.GetAdminByNumberAndIdAsync(number, email);
+                var otp = _authService.GenerateOTP();
+                return StatusCode(200, new { id =adminid , otp=otp });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while reset password.");
+                return StatusCode(500, new { message = "An error occurred while reseting the password." });
+            }
+        }
         // ## email & number => return 
         //// Placeholder for the forget password functionality
         //[HttpPost("{adminId}/forget-password")]

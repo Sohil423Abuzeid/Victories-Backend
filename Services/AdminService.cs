@@ -1,7 +1,9 @@
 ﻿using InstaHub.Dto;
 using InstaHub.Models;
 using InstaHub.Services.Authentication;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text;
 using static System.Net.WebRequestMethods;
 
 namespace InstaHub.Services
@@ -47,7 +49,15 @@ namespace InstaHub.Services
             }
             return admin;
         }
-
+        public async Task<int> GetAdminByNumberAndIdAsync(string number , string email)
+        {
+            var admin = await _context.Admins.FirstOrDefaultAsync(a => a.PhoneNumber == number && a.Email==email);
+            if (admin == null)
+            {
+                throw new Exception($"Admin with Id {admin.Id} not found.");
+            }
+            return admin.Id;
+        }
         public async Task<IEnumerable<Admin>> GetAllAdminsAsync()
         {
             var admins = await _context.Admins.ToListAsync();
@@ -108,6 +118,6 @@ namespace InstaHub.Services
 
             return true; // photo updated successfully
         }
-
+       
     }
 }
