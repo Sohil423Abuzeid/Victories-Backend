@@ -104,6 +104,7 @@ namespace InstaHub.Services
             var tickets = await _ticketRepository.GetAllTicketByAsync();
             var ticketjson = tickets.Select(ticket => new
             {
+                Id = ticket.Id,
                 Urgent = ticket.Urgent,
                 StateId = ticket.StateId,
                 State = ((States)ticket.StateId).ToString(),
