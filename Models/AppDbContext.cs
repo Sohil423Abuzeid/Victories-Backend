@@ -33,7 +33,18 @@ namespace InstaHub.Models
                 .WithMany()
                 .IsRequired(); // CategoryId is a required field
 
+            modelBuilder.Entity<TicketAdmin>()
+              .HasKey(ta => new { ta.TicketId, ta.AdminId });
 
+            modelBuilder.Entity<TicketAdmin>()
+                .HasOne(ta => ta.Ticket)
+                .WithMany(t => t.TicketAdmins)
+                .HasForeignKey(ta => ta.TicketId);
+
+            modelBuilder.Entity<TicketAdmin>()
+                .HasOne(ta => ta.Admin)
+                .WithMany(a => a.TicketAdmins)
+                .HasForeignKey(ta => ta.AdminId);
 
             base.OnModelCreating(modelBuilder);
         }
